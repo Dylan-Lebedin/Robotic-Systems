@@ -1,0 +1,39 @@
+#include <Arduino.h>
+
+int trigPin = 18;    // Trigger
+int echoPin = 17;    // Echo
+double duration;
+double cm, inches;
+ 
+void setup() {
+  //Serial Port begin
+  Serial.begin (9600);
+  //Define inputs and outputs
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+}
+ 
+void loop() {
+  // The sensor is triggered by a HIGH pulse of 10 or more microseconds.
+  // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(5);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+   
+  // Read the signal from the sensor: a HIGH pulse whose
+  // duration is the time (in microseconds) from the sending
+  // of the ping to the reception of its echo off of an object.
+  pinMode(echoPin, INPUT);
+  duration = pulseIn(echoPin, HIGH);
+ 
+  // Convert the time into a distance     
+  inches = 0.0066*duration+0.1338;
+  
+  //Serial.println(duration);
+  Serial.println(inches);
+  
+  delay(250);
+}
+
